@@ -13,22 +13,37 @@ void ShoppingList::showList() const {
 }
 
 
-void ShoppingList::insertItem(const Item &item, int quantity) {
-    items.insert(std::make_pair(item, quantity));
+bool ShoppingList::insertItem(const Item &item, int quantity) {
+    if (!searchItem(item.getName())) {
+        items.insert(std::make_pair(item, quantity));
+        return true;
+    }
+    return false;
 }
 
-void ShoppingList::eraseItem(std::string itemName) {
+bool ShoppingList::eraseItem(const std::string &itemName) {
     auto itr = begin(items);
     while ((itr->first.getName() != itemName) && (itr != items.end())) {
         itr++;
     }
     if (itr != items.end()) {
         items.erase(itr);
+        return true;
     }
+    return false;
 }
 
 const std::string &ShoppingList::getListName() const {
     return listName;
+}
+
+bool ShoppingList::searchItem(const std::string &itemName) const {
+    bool result = false;
+    for (auto itr: items) {
+        if (itr.first.getName() == itemName)
+            result = true;
+    }
+    return result;
 }
 
 

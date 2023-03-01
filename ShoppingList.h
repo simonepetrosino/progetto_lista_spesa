@@ -15,11 +15,13 @@ public:
 
     void showList() const;
 
-    void insertItem(const Item &item, int quantity);
+    bool insertItem(const Item &item, int quantity);
 
-    void eraseItem(std::string itemName);
+    bool eraseItem(const std::string &itemName);
 
     const std::string &getListName() const;
+
+    bool searchItem(const std::string &itemName) const;
 
 private:
     std::string listName;

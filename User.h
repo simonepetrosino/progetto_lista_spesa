@@ -16,13 +16,17 @@ class User {
 public:
     User(std::string name) : username(name) {}
 
-    void createList(std::string listName);
+    bool createList(const std::string &listName);
 
-    void addItem(const Item &item, int quantity, std::string listName) const;
+    bool addItem(const Item &item, int quantity, std::string listName) const;
 
-    void removeItem(std::string itemName, std::string listName) const;
+    bool removeItem(const std::string &itemName, const std::string &listName) const;
 
-    void showList(std::string listName);
+    void showList(const std::string &listName);
+
+    std::string getUsername() const;
+
+    bool searchList(const std::string &listName) const;
 
 private:
     std::string username;
