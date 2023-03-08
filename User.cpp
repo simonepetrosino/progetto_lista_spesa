@@ -21,6 +21,7 @@ bool User::createList(const std::string &listName) {
     bool result = false;
     if (!searchList(listName)) {
         std::shared_ptr<ShoppingList> list = std::make_shared<ShoppingList>(listName);
+        list->registerObserver(this);
         lists.push_back(list);
         result = true;
     }
@@ -57,6 +58,52 @@ bool User::searchList(const std::string &listName) const {
             result = true;
     }
     return result;
+}
+
+void User::update() {
+    std::cout << "NOTIFICA " << username << " : la tua lista e' stata modificata" << std::endl;
+}
+
+void User::attach(const User &user, std::string listName) {
+    if (user.searchList(listName)) {
+        auto itr = user.lists.begin();
+        while ((itr != user.lists.end()) && ((*itr)->getListName() != listName)) {
+            itr++;
+        }
+        (*itr)->registerObserver(this);
+        std::shared_ptr<ShoppingList> list = (*itr);
+        lists.push_back(list);
+    }
+}
+
+void User::detach(const User &user, std::string listName) {
+    if (user.searchList(listName)) {
+        auto itr = user.lists.begin();
+        while ((itr != user.lists.end()) && ((*itr)->getListName() != listName)) {
+            itr++;
+        }
+        (*itr)->removeObserver(this);
+        this->deleteList(listName);
+    }
+}
+
+bool User::deleteList(const std::string &listName) {
+    auto itr = lists.begin();
+    while ((itr != lists.end()) && ((*itr)->getListName() != listName)) {
+        itr++;
+    }
+    if (itr != lists.end()) {
+        lists.erase(itr);
+        return true;
+    }
+    return false;
+}
+
+void User::showAllLists() {
+    std::cout << "Liste di " << getUsername() << std::endl;
+    for (auto list: lists) {
+        list->showList();
+    }
 }
 
 

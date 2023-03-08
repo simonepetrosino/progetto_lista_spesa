@@ -16,6 +16,7 @@ TEST(ShoppingList, TestInsertItem) {
     Item item("Acqua", Item::BEVERAGES);
     ASSERT_TRUE(list.insertItem(item, 5));
     ASSERT_FALSE(list.insertItem(item, 4));
+    list.showList();
 }
 
 TEST(ShoppingList, TestEraseItem) {
@@ -25,4 +26,14 @@ TEST(ShoppingList, TestEraseItem) {
     list.insertItem(item, 4);
     ASSERT_FALSE(list.eraseItem("Acqu"));
     ASSERT_TRUE(list.eraseItem("Acqua"));
+    list.showList();
+}
+
+TEST(ShoppingList, TestSearchItem) {
+    ShoppingList list("List");
+    Item item("Acqua", Item::BEVERAGES);
+    list.insertItem(item, 7);
+    ASSERT_TRUE(list.searchItem("Acqua"));
+    list.eraseItem("Acqua");
+    ASSERT_FALSE(list.searchItem("Acqua"));
 }

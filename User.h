@@ -11,12 +11,16 @@
 #include "ShoppingList.h"
 #include "Item.h"
 #include <memory>
+#include "Observer.h"
 
-class User {
+
+class User : public Observer {
 public:
-    User(std::string name) : username(name) {}
+    explicit User(std::string name) : username(name) {}
 
     bool createList(const std::string &listName);
+
+    bool deleteList(const std::string &listName);
 
     bool addItem(const Item &item, int quantity, std::string listName) const;
 
@@ -24,9 +28,17 @@ public:
 
     void showList(const std::string &listName);
 
+    void showAllLists();
+
     std::string getUsername() const;
 
     bool searchList(const std::string &listName) const;
+
+    void update() override;
+
+    void attach(const User &user, std::string listName);
+
+    void detach(const User &user, std::string listName);
 
 private:
     std::string username;

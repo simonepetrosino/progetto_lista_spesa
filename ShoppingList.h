@@ -7,11 +7,12 @@
 
 #include <map>
 #include "Item.h"
+#include "Subject.h"
+#include <list>
 
-
-class ShoppingList {
+class ShoppingList : public Subject {
 public:
-    ShoppingList(std::string name) : listName(name) {}
+    explicit ShoppingList(std::string name) : listName(name) {}
 
     void showList() const;
 
@@ -23,9 +24,16 @@ public:
 
     bool searchItem(const std::string &itemName) const;
 
+    void notify() override;
+
+    void registerObserver(Observer *o) override;
+
+    void removeObserver(Observer *o) override;
+
 private:
     std::string listName;
     std::map<Item, int, ItemComparator> items;
+    std::list<Observer *> observers;
 };
 
 
