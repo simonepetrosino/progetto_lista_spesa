@@ -5,10 +5,12 @@
 #include "ShoppingList.h"
 #include <iostream>
 
-void ShoppingList::showList() const {
+void ShoppingList::showList(int category) const {
     std::cout << "Nome lista: " << listName << std::endl;
     for (auto item: items) {
-        std::cout << item.first.getName() << " : " << item.second << std::endl;
+        if (category == 3 || item.first.getCategory() == category) {
+            std::cout << item.first.getName() << " : " << item.second << std::endl;
+        }
     }
 }
 

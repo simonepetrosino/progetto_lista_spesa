@@ -79,3 +79,18 @@ TEST(User, TestDetach) {
     userY.showAllLists();
 }
 
+TEST(User, TestShowAllLists) {
+    User userX("x");
+    userX.createList("Lista di x");
+    Item x("Limone", 0);
+    Item y("Acqua", 1);
+    Item z("Detersivo", 2);
+    userX.addItem(x, 10, "Lista di x");
+    userX.addItem(y, 4, "Lista di x");
+    userX.addItem(z, 7, "Lista di x");
+    userX.showAllLists(0);
+    userX.showAllLists(1);
+    userX.showAllLists(2);
+    userX.showAllLists();
+}
+

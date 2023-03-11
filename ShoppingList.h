@@ -14,7 +14,7 @@ class ShoppingList : public Subject {
 public:
     explicit ShoppingList(std::string name) : listName(name) {}
 
-    void showList() const;
+    void showList(int category = 3) const;
 
     bool insertItem(const Item &item, int quantity);
 

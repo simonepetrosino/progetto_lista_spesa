@@ -26,9 +26,9 @@ public:
 
     bool removeItem(const std::string &itemName, const std::string &listName) const;
 
-    void showList(const std::string &listName);
+    void showList(const std::string &listName, int category = 3);
 
-    void showAllLists();
+    void showAllLists(int category = 3);
 
     std::string getUsername() const;
 

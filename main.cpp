@@ -11,12 +11,12 @@ int main() {
     Item y("Acqua", 1);
     Item z("Detersivo", 2);
     userX.addItem(x, 10, "Lista di x");
-    userX.showList("Lista di x");
-    userY.showList("Lista di x");
-    userY.detach(userX, "Lista di x");
     userY.addItem(y, 4, "Lista di x");
+    userX.showAllLists(1);
+    userY.showAllLists(0);
+    userX.showAllLists();
+    userY.detach(userX, "Lista di x");
     userX.addItem(z, 7, "Lista di x");
-    userX.showList("Lista di x");
-    userY.showList("Lista di x");
+    userX.showAllLists();
     return 0;
 }

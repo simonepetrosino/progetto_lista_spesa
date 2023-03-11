@@ -37,3 +37,17 @@ TEST(ShoppingList, TestSearchItem) {
     list.eraseItem("Acqua");
     ASSERT_FALSE(list.searchItem("Acqua"));
 }
+
+TEST(ShoppingList, TestShowList) {
+    ShoppingList list("List");
+    Item x("Limone", 0);
+    Item y("Acqua", 1);
+    Item z("Detersivo", 2);
+    list.insertItem(x, 10);
+    list.insertItem(y, 4);
+    list.insertItem(z, 7);
+    list.showList(0);
+    list.showList(1);
+    list.showList(2);
+    list.showList();
+}

@@ -39,10 +39,10 @@ bool User::removeItem(const std::string &itemName, const std::string &listName) 
     return false;
 }
 
-void User::showList(const std::string &listName) {
+void User::showList(const std::string &listName, int category) {
     for (auto i: lists) {
         if (i->getListName() == listName) {
-            i->showList();
+            i->showList(category);
         }
     }
 }
@@ -99,10 +99,10 @@ bool User::deleteList(const std::string &listName) {
     return false;
 }
 
-void User::showAllLists() {
+void User::showAllLists(int category) {
     std::cout << "Liste di " << getUsername() << std::endl;
     for (auto list: lists) {
-        list->showList();
+        list->showList(category);
     }
 }
 
