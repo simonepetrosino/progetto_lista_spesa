@@ -29,13 +29,13 @@ TEST(ShoppingList, TestEraseItem) {
     list.showList();
 }
 
-TEST(ShoppingList, TestSearchItem) {
+TEST(ShoppingList, TestItemIsPresent) {
     ShoppingList list("List");
     Item item("Acqua", Item::BEVERAGES);
     list.insertItem(item, 7);
-    ASSERT_TRUE(list.searchItem("Acqua"));
+    ASSERT_TRUE(list.itemsIsPresent("Acqua"));
     list.eraseItem("Acqua");
-    ASSERT_FALSE(list.searchItem("Acqua"));
+    ASSERT_FALSE(list.itemsIsPresent("Acqua"));
 }
 
 TEST(ShoppingList, TestShowList) {

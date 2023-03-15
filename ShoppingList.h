@@ -22,13 +22,16 @@ public:
 
     const std::string &getListName() const;
 
-    bool searchItem(const std::string &itemName) const;
+    bool itemsIsPresent(const std::string &itemName) const;
 
     void notify() override;
 
     void registerObserver(Observer *o) override;
 
     void removeObserver(Observer *o) override;
+
+    auto itemSearcher(const std::string &itemName) const;
+
 
 private:
     std::string listName;

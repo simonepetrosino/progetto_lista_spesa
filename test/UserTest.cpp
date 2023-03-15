@@ -15,7 +15,7 @@ TEST(User, TestCreateList) {
     User user("User");
     ASSERT_TRUE(user.createList("List"));
     ASSERT_FALSE(user.createList("List"));
-    ASSERT_TRUE(user.searchList("List"));
+    ASSERT_TRUE(user.listIsPresent("List"));
     user.showAllLists();
 }
 
@@ -32,6 +32,7 @@ TEST(User, TestRemoveItem) {
     User user("User");
     user.createList("List");
     Item item("Acqua", Item::BEVERAGES);
+    user.showList("List");
     ASSERT_FALSE(user.removeItem("Acqua", "List"));
     user.addItem(item, 3, "List");
     user.showAllLists();
@@ -39,15 +40,15 @@ TEST(User, TestRemoveItem) {
     user.showAllLists();
 }
 
-TEST(User, TestSearchList) {
+TEST(User, TestListIsPresent) {
     User userX("UserX");
     userX.createList("List");
-    ASSERT_FALSE(userX.searchList("Lis"));
-    ASSERT_TRUE(userX.searchList("List"));
+    ASSERT_FALSE(userX.listIsPresent("Lis"));
+    ASSERT_TRUE(userX.listIsPresent("List"));
     userX.showAllLists();
     User userY("UserY");
     userY.attach(userX, "List");
-    ASSERT_TRUE(userY.searchList("List"));
+    ASSERT_TRUE(userY.listIsPresent("List"));
     userY.showAllLists();
 }
 
@@ -55,7 +56,7 @@ TEST(User, TestDeleteList) {
     User user("User");
     user.createList("List");
     user.deleteList("List");
-    ASSERT_FALSE(user.searchList("List"));
+    ASSERT_FALSE(user.listIsPresent("List"));
     user.showAllLists();
 }
 
@@ -64,7 +65,7 @@ TEST(User, TestAttach) {
     User userY("y");
     userX.createList("List x");
     userY.attach(userX, "List x");
-    ASSERT_TRUE(userX.searchList("List x"));
+    ASSERT_TRUE(userX.listIsPresent("List x"));
     userY.showAllLists();
 }
 
@@ -74,8 +75,9 @@ TEST(User, TestDetach) {
     userX.createList("List x");
     userY.attach(userX, "List x");
     userY.showAllLists();
-    ASSERT_TRUE(userX.searchList("List x"));
+    ASSERT_TRUE(userY.listIsPresent("List x"));
     userY.detach(userX, "List x");
+    ASSERT_FALSE(userY.listIsPresent("List x"));
     userY.showAllLists();
 }
 

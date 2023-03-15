@@ -32,13 +32,15 @@ public:
 
     std::string getUsername() const;
 
-    bool searchList(const std::string &listName) const;
+    bool listIsPresent(const std::string &listName) const;
 
     void update() override;
 
     void attach(const User &user, std::string listName);
 
     void detach(const User &user, std::string listName);
+
+    auto listSearcher(const std::string &listName) const;
 
 private:
     std::string username;

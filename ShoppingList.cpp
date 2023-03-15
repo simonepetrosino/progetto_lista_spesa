@@ -16,7 +16,7 @@ void ShoppingList::showList(int category) const {
 
 
 bool ShoppingList::insertItem(const Item &item, int quantity) {
-    if (!searchItem(item.getName())) {
+    if (!itemsIsPresent(item.getName())) {
         items.insert(std::make_pair(item, quantity));
         notify();
         return true;
@@ -24,13 +24,17 @@ bool ShoppingList::insertItem(const Item &item, int quantity) {
     return false;
 }
 
-bool ShoppingList::eraseItem(const std::string &itemName) {
-    auto itr = begin(items);
-    while ((itr->first.getName() != itemName) && (itr != items.end())) {
+auto ShoppingList::itemSearcher(const std::string &itemName) const {
+    auto itr = items.begin();
+    while ((itr != items.end()) && (itr->first.getName() != itemName)) {
         itr++;
     }
-    if (itr != items.end()) {
-        items.erase(itr);
+    return itr;
+}
+
+bool ShoppingList::eraseItem(const std::string &itemName) {
+    if (itemsIsPresent(itemName)) {
+        items.erase(itemSearcher(itemName));
         notify();
         return true;
     }
@@ -41,10 +45,10 @@ const std::string &ShoppingList::getListName() const {
     return listName;
 }
 
-bool ShoppingList::searchItem(const std::string &itemName) const {
+bool ShoppingList::itemsIsPresent(const std::string &itemName) const {
     bool result = false;
-    for (auto itr: items) {
-        if (itr.first.getName() == itemName)
+    for (auto item: items) {
+        if (item.first.getName() == itemName)
             result = true;
     }
     return result;

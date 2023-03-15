@@ -5,21 +5,24 @@
 #include <iostream>
 #include "User.h"
 
-bool User::addItem(const Item &item, int quantity, std::string listName) const {
+auto User::listSearcher(const std::string &listName) const {
     auto itr = lists.begin();
     while ((itr != lists.end()) && ((*itr)->getListName() != listName)) {
         itr++;
     }
-    if (itr != lists.end()) {
-        (*itr)->insertItem(item, quantity);
-        return true;
+    return itr;
+}
+
+bool User::addItem(const Item &item, int quantity, std::string listName) const {
+    if (listSearcher(listName) != lists.end()) {
+        return (*listSearcher(listName))->insertItem(item, quantity);
     }
     return false;
 }
 
 bool User::createList(const std::string &listName) {
     bool result = false;
-    if (!searchList(listName)) {
+    if (!listIsPresent(listName)) {
         std::shared_ptr<ShoppingList> list = std::make_shared<ShoppingList>(listName);
         list->registerObserver(this);
         lists.push_back(list);
@@ -29,12 +32,8 @@ bool User::createList(const std::string &listName) {
 }
 
 bool User::removeItem(const std::string &itemName, const std::string &listName) const {
-    auto itr = lists.begin();
-    while ((itr != lists.end()) && ((*itr)->getListName() != listName)) {
-        itr++;
-    }
-    if (itr != lists.end()) {
-        return (*itr)->eraseItem(itemName);
+    if (listIsPresent(listName)) {
+        return (*listSearcher(listName))->eraseItem(itemName);
     }
     return false;
 }
@@ -51,7 +50,7 @@ std::string User::getUsername() const {
     return username;
 }
 
-bool User::searchList(const std::string &listName) const {
+bool User::listIsPresent(const std::string &listName) const {
     bool result = false;
     for (auto list: lists) {
         if (list->getListName() == listName)
@@ -65,38 +64,27 @@ void User::update() {
 }
 
 void User::attach(const User &user, std::string listName) {
-    if (user.searchList(listName)) {
-        auto itr = user.lists.begin();
-        while ((itr != user.lists.end()) && ((*itr)->getListName() != listName)) {
-            itr++;
-        }
-        (*itr)->registerObserver(this);
-        std::shared_ptr<ShoppingList> list = (*itr);
+    if (user.listIsPresent(listName)) {
+        (*user.listSearcher(listName))->registerObserver(this);
+        std::shared_ptr<ShoppingList> list = (*user.listSearcher(listName));
         lists.push_back(list);
     }
 }
 
 void User::detach(const User &user, std::string listName) {
-    if (user.searchList(listName)) {
-        auto itr = user.lists.begin();
-        while ((itr != user.lists.end()) && ((*itr)->getListName() != listName)) {
-            itr++;
-        }
-        (*itr)->removeObserver(this);
-        this->deleteList(listName);
+    if (user.listIsPresent(listName)) {
+        (*user.listSearcher(listName))->removeObserver(this);
+        deleteList(listName);
     }
 }
 
 bool User::deleteList(const std::string &listName) {
-    auto itr = lists.begin();
-    while ((itr != lists.end()) && ((*itr)->getListName() != listName)) {
-        itr++;
+    bool result = false;
+    if (listIsPresent(listName)) {
+        lists.erase(listSearcher(listName));
+        result = true;
     }
-    if (itr != lists.end()) {
-        lists.erase(itr);
-        return true;
-    }
-    return false;
+    return result;
 }
 
 void User::showAllLists(int category) {
