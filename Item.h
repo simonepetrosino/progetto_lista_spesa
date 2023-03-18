@@ -17,7 +17,7 @@ public:
         OTHER = 2
     };
 
-    Item(std::string name, int category) : name(name), categoryCode(category) {}
+    Item(std::string name, int category) : name(std::move(name)), categoryCode(category) {}
 
     const std::string &getName() const {
         return name;

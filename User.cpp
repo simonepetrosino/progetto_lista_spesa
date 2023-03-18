@@ -13,7 +13,7 @@ auto User::listSearcher(const std::string &listName) const {
     return itr;
 }
 
-bool User::addItem(const Item &item, int quantity, std::string listName) const {
+bool User::addItem(const Item &item, int quantity, const std::string &listName) const {
     if (listSearcher(listName) != lists.end()) {
         return (*listSearcher(listName))->insertItem(item, quantity);
     }
@@ -39,7 +39,7 @@ bool User::removeItem(const std::string &itemName, const std::string &listName) 
 }
 
 void User::showList(const std::string &listName, int category) {
-    for (auto i: lists) {
+    for (const auto &i: lists) {
         if (i->getListName() == listName) {
             i->showList(category);
         }
@@ -52,7 +52,7 @@ std::string User::getUsername() const {
 
 bool User::listIsPresent(const std::string &listName) const {
     bool result = false;
-    for (auto list: lists) {
+    for (const auto &list: lists) {
         if (list->getListName() == listName)
             result = true;
     }
@@ -63,7 +63,7 @@ void User::update() {
     std::cout << "NOTIFICA " << username << " : la tua lista e' stata modificata" << std::endl;
 }
 
-void User::attach(const User &user, std::string listName) {
+void User::attach(const User &user, const std::string &listName) {
     if (user.listIsPresent(listName)) {
         (*user.listSearcher(listName))->registerObserver(this);
         std::shared_ptr<ShoppingList> list = (*user.listSearcher(listName));
@@ -71,7 +71,7 @@ void User::attach(const User &user, std::string listName) {
     }
 }
 
-void User::detach(const User &user, std::string listName) {
+void User::detach(const User &user, const std::string &listName) {
     if (user.listIsPresent(listName)) {
         (*user.listSearcher(listName))->removeObserver(this);
         deleteList(listName);
@@ -89,9 +89,21 @@ bool User::deleteList(const std::string &listName) {
 
 void User::showAllLists(int category) {
     std::cout << "Liste di " << getUsername() << std::endl;
-    for (auto list: lists) {
+    for (const auto &list: lists) {
         list->showList(category);
     }
+}
+
+bool User::modifyItem(const std::string &itemName, const std::string &listName, int quantity) const {
+    bool result = false;
+    if (listIsPresent(listName)) {
+        std::shared_ptr<ShoppingList> list = (*listSearcher(listName));
+        if ((list->itemsIsPresent(itemName))) {
+            list->itemModifier(itemName, quantity);
+            result = true;
+        }
+    }
+    return result;
 }
 
 

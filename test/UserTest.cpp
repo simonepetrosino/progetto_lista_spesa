@@ -96,3 +96,23 @@ TEST(User, TestShowAllLists) {
     userX.showAllLists();
 }
 
+TEST(User, TestModifyItem) {
+    User userX("x");
+    User userY("y");
+    userX.createList("List x");
+    userY.createList("List y");
+    userY.attach(userX, "List x");
+    Item x("Limone", 0);
+    Item y("Acqua", 1);
+    userX.addItem(x, 10, "List x");
+    userY.addItem(y, 4, "List y");
+    ASSERT_TRUE(userX.modifyItem("Limone", "List x", -5));
+    userX.showAllLists();
+    ASSERT_TRUE(userY.modifyItem("Limone", "List x", -5));
+    userY.showAllLists();
+    ASSERT_FALSE(userX.modifyItem("Acqua", "List y", -6));
+    ASSERT_TRUE(userY.modifyItem("Acqua", "List y", 3));
+    userY.showAllLists();
+    ASSERT_TRUE(userY.modifyItem("Acqua", "List y", -10));
+    userY.showAllLists();
+}

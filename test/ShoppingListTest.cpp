@@ -51,3 +51,21 @@ TEST(ShoppingList, TestShowList) {
     list.showList(2);
     list.showList();
 }
+
+TEST(ShoppingList, TestItemModifier) {
+    ShoppingList list("List");
+    Item x("Limone", 0);
+    Item y("Acqua", 1);
+    list.insertItem(x, 10);
+    list.insertItem(y, 4);
+    list.showList();
+    list.itemModifier("Limone", 4);
+    list.showList();
+    list.itemModifier("Limone", -12);
+    list.showList();
+    list.itemModifier("Limone", -2);
+    list.showList();
+    list.itemModifier("Acqua", -7);
+    list.showList();
+
+}

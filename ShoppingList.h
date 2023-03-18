@@ -12,7 +12,7 @@
 
 class ShoppingList : public Subject {
 public:
-    explicit ShoppingList(std::string name) : listName(name) {}
+    explicit ShoppingList(std::string name) : listName(std::move(name)) {}
 
     void showList(int category = 3) const;
 
@@ -22,17 +22,17 @@ public:
 
     const std::string &getListName() const;
 
-    bool itemsIsPresent(const std::string &itemName) const;
-
     void notify() override;
 
     void registerObserver(Observer *o) override;
 
     void removeObserver(Observer *o) override;
 
-    auto itemSearcher(const std::string &itemName) const;
+    void itemModifier(const std::string &itemName, int quantity);
 
+    bool itemsIsPresent(const std::string &itemName) const;
 
+    auto itemSearcher(const std::string &itemName);
 private:
     std::string listName;
     std::map<Item, int, ItemComparator> items;

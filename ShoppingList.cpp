@@ -7,7 +7,7 @@
 
 void ShoppingList::showList(int category) const {
     std::cout << "Nome lista: " << listName << std::endl;
-    for (auto item: items) {
+    for (const auto &item: items) {
         if (category == 3 || item.first.getCategory() == category) {
             std::cout << item.first.getName() << " : " << item.second << std::endl;
         }
@@ -24,7 +24,7 @@ bool ShoppingList::insertItem(const Item &item, int quantity) {
     return false;
 }
 
-auto ShoppingList::itemSearcher(const std::string &itemName) const {
+auto ShoppingList::itemSearcher(const std::string &itemName) {
     auto itr = items.begin();
     while ((itr != items.end()) && (itr->first.getName() != itemName)) {
         itr++;
@@ -47,7 +47,7 @@ const std::string &ShoppingList::getListName() const {
 
 bool ShoppingList::itemsIsPresent(const std::string &itemName) const {
     bool result = false;
-    for (auto item: items) {
+    for (const auto &item: items) {
         if (item.first.getName() == itemName)
             result = true;
     }
@@ -66,6 +66,15 @@ void ShoppingList::registerObserver(Observer *o) {
 
 void ShoppingList::removeObserver(Observer *o) {
     observers.remove(o);
+}
+
+void ShoppingList::itemModifier(const std::string &itemName, int quantity) {
+    if ((*itemSearcher(itemName)).second + quantity <= 0) {
+        eraseItem(itemName);
+    } else {
+        (*itemSearcher(itemName)).second += quantity;
+        notify();
+    }
 }
 
 
