@@ -8,25 +8,25 @@
 void ShoppingList::showList(int category) const {
     std::cout << "Nome lista: " << listName << std::endl;
     for (const auto &item: items) {
-        if (category == 3 || item.first.getCategory() == category) {
-            std::cout << item.first.getName() << " : " << item.second << std::endl;
+        if (category == 3 || item.first == category) {
+            std::cout << item.second->getName() << " : " << item.second->isBought() << std::endl;
         }
     }
 }
 
 
-bool ShoppingList::insertItem(const Item &item, int quantity) {
+bool ShoppingList::insertItem(const Item &item) {
     if (!itemsIsPresent(item.getName())) {
-        items.insert(std::make_pair(item, quantity));
+        items.insert(std::make_pair(item.getCategory(), &const_cast<Item &>(item)));
         notify();
         return true;
     }
     return false;
 }
 
-auto ShoppingList::itemSearcher(const std::string &itemName) {
+std::map<int, Item *>::iterator ShoppingList::itemSearcher(const std::string &itemName) {
     auto itr = items.begin();
-    while ((itr != items.end()) && (itr->first.getName() != itemName)) {
+    while ((itr != items.end()) && (itr->second->getName() != itemName)) {
         itr++;
     }
     return itr;
@@ -48,7 +48,7 @@ const std::string &ShoppingList::getListName() const {
 bool ShoppingList::itemsIsPresent(const std::string &itemName) const {
     bool result = false;
     for (const auto &item: items) {
-        if (item.first.getName() == itemName)
+        if (item.second->getName() == itemName)
             result = true;
     }
     return result;
@@ -68,14 +68,31 @@ void ShoppingList::removeObserver(Observer *o) {
     observers.remove(o);
 }
 
-void ShoppingList::itemModifier(const std::string &itemName, int quantity) {
-    if ((*itemSearcher(itemName)).second + quantity <= 0) {
-        eraseItem(itemName);
-    } else {
-        (*itemSearcher(itemName)).second += quantity;
-        notify();
+void ShoppingList::checkItem(const std::string &itemName) {
+    if (itemsIsPresent(itemName)) {
+        (*itemSearcher(itemName)).second->setBought(true);
     }
 }
+
+void ShoppingList::uncheckItem(const std::string &itemName) {
+    if (itemsIsPresent(itemName)) {
+        (*itemSearcher(itemName)).second->setBought(false);
+    }
+}
+
+int ShoppingList::totItemsToBuy(int category) const {
+    int tot = 0;
+    for (const auto &item: items) {
+        if (category == 3 || item.first == category) {
+            if (!(item.second->isBought())) {
+                tot++;
+            }
+        }
+    }
+    return tot;
+}
+
+
 
 
 

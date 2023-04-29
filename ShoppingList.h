@@ -16,7 +16,7 @@ public:
 
     void showList(int category = 3) const;
 
-    bool insertItem(const Item &item, int quantity);
+    bool insertItem(const Item &item);
 
     bool eraseItem(const std::string &itemName);
 
@@ -28,14 +28,20 @@ public:
 
     void removeObserver(Observer *o) override;
 
-    void itemModifier(const std::string &itemName, int quantity);
+    void checkItem(const std::string &itemName);
+
+    void uncheckItem(const std::string &itemName);
 
     bool itemsIsPresent(const std::string &itemName) const;
 
-    auto itemSearcher(const std::string &itemName);
+    int totItemsToBuy(int category = 3) const;
+
 private:
+
+    std::map<int, Item *>::iterator itemSearcher(const std::string &itemName);
+
     std::string listName;
-    std::map<Item, int, ItemComparator> items;
+    std::map<int, Item *> items;
     std::list<Observer *> observers;
 };
 

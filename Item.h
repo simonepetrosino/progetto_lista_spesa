@@ -17,7 +17,7 @@ public:
         OTHER = 2
     };
 
-    Item(std::string name, int category) : name(std::move(name)), categoryCode(category) {}
+    Item(std::string name, int category) : name(std::move(name)), categoryCode(category), bought(false) {}
 
     const std::string &getName() const {
         return name;
@@ -27,19 +27,18 @@ public:
         return categoryCode;
     }
 
+    bool isBought() const {
+        return bought;
+    }
+
+    void setBought(bool value) {
+        bought = value;
+    }
+
 private:
     int categoryCode;
     std::string name;
-};
-
-class ItemComparator {
-public:
-    bool operator()(const Item &first, const Item &second) {
-        if (first.getName() < second.getName())
-            return true;
-        else
-            return false;
-    }
+    bool bought;
 };
 
 #endif //PROGETTO_LISTA_SPESA_ITEM_H

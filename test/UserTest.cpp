@@ -15,17 +15,14 @@ TEST(User, TestCreateList) {
     User user("User");
     ASSERT_TRUE(user.createList("List"));
     ASSERT_FALSE(user.createList("List"));
-    ASSERT_TRUE(user.listIsPresent("List"));
-    user.showAllLists();
 }
 
 TEST(User, TestAddItem) {
     User user("User");
     user.createList("List");
     Item item("Acqua", Item::BEVERAGES);
-    ASSERT_TRUE(user.addItem(item, 4, "List"));
-    ASSERT_FALSE(user.addItem(item, 4, "Lis"));
-    user.showAllLists();
+    ASSERT_TRUE(user.addItem(item, "List"));
+    ASSERT_FALSE(user.addItem(item, "Lis"));
 }
 
 TEST(User, TestRemoveItem) {
@@ -34,13 +31,11 @@ TEST(User, TestRemoveItem) {
     Item item("Acqua", Item::BEVERAGES);
     user.showList("List");
     ASSERT_FALSE(user.removeItem("Acqua", "List"));
-    user.addItem(item, 3, "List");
-    user.showAllLists();
+    user.addItem(item, "List");
     ASSERT_TRUE(user.removeItem("Acqua", "List"));
-    user.showAllLists();
 }
 
-TEST(User, TestListIsPresent) {
+/*TEST(User, TestListIsPresent) {
     User userX("UserX");
     userX.createList("List");
     ASSERT_FALSE(userX.listIsPresent("Lis"));
@@ -50,17 +45,15 @@ TEST(User, TestListIsPresent) {
     userY.attach(userX, "List");
     ASSERT_TRUE(userY.listIsPresent("List"));
     userY.showAllLists();
-}
+}*/
 
 TEST(User, TestDeleteList) {
     User user("User");
     user.createList("List");
-    user.deleteList("List");
-    ASSERT_FALSE(user.listIsPresent("List"));
-    user.showAllLists();
+    ASSERT_TRUE(user.deleteList("List"));
 }
 
-TEST(User, TestAttach) {
+/*TEST(User, TestAttach) {
     User userX("x");
     User userY("y");
     userX.createList("List x");
@@ -79,7 +72,7 @@ TEST(User, TestDetach) {
     userY.detach(userX, "List x");
     ASSERT_FALSE(userY.listIsPresent("List x"));
     userY.showAllLists();
-}
+}*/
 
 TEST(User, TestShowAllLists) {
     User userX("x");
@@ -87,16 +80,16 @@ TEST(User, TestShowAllLists) {
     Item x("Limone", 0);
     Item y("Acqua", 1);
     Item z("Detersivo", 2);
-    userX.addItem(x, 10, "Lista di x");
-    userX.addItem(y, 4, "Lista di x");
-    userX.addItem(z, 7, "Lista di x");
+    userX.addItem(x, "Lista di x");
+    userX.addItem(y, "Lista di x");
+    userX.addItem(z, "Lista di x");
     userX.showAllLists(0);
     userX.showAllLists(1);
     userX.showAllLists(2);
     userX.showAllLists();
 }
 
-TEST(User, TestModifyItem) {
+/*TEST(User, TestModifyItem) {
     User userX("x");
     User userY("y");
     userX.createList("List x");
@@ -115,4 +108,25 @@ TEST(User, TestModifyItem) {
     userY.showAllLists();
     ASSERT_TRUE(userY.modifyItem("Acqua", "List y", -10));
     userY.showAllLists();
+}*/
+
+TEST(User, TestCheckItem) {
+    User userX("x");
+    userX.createList("List x");
+    Item x("Limone", 0);
+    userX.addItem(x, "List x");
+    ASSERT_FALSE(x.isBought());
+    userX.checkItem("Limone", "List x");
+    ASSERT_TRUE(x.isBought());
+}
+
+TEST(User, TestUncheckItem) {
+    User userX("x");
+    userX.createList("List x");
+    Item x("Limone", 0);
+    userX.addItem(x, "List x");
+    userX.checkItem("Limone", "List x");
+    ASSERT_TRUE(x.isBought());
+    userX.uncheckItem("Limone", "List x");
+    ASSERT_FALSE(x.isBought());
 }

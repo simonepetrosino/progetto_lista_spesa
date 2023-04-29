@@ -22,7 +22,7 @@ public:
 
     bool deleteList(const std::string &listName);
 
-    bool addItem(const Item &item, int quantity, const std::string &listName) const;
+    bool addItem(const Item &item, const std::string &listName) const;
 
     bool removeItem(const std::string &itemName, const std::string &listName) const;
 
@@ -38,13 +38,16 @@ public:
 
     void detach(const User &user, const std::string &listName);
 
-    bool modifyItem(const std::string &itemName, const std::string &listName, int quantity) const;
+    void checkItem(const std::string &itemName, const std::string &listName);
 
-    auto listSearcher(const std::string &listName) const;
+    void uncheckItem(const std::string &itemName, const std::string &listName);
 
     bool listIsPresent(const std::string &listName) const;
 
 private:
+
+    auto listSearcher(const std::string &listName) const;
+
     std::string username;
     std::list<std::shared_ptr<ShoppingList>> lists;
 };

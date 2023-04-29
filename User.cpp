@@ -13,9 +13,9 @@ auto User::listSearcher(const std::string &listName) const {
     return itr;
 }
 
-bool User::addItem(const Item &item, int quantity, const std::string &listName) const {
+bool User::addItem(const Item &item, const std::string &listName) const {
     if (listSearcher(listName) != lists.end()) {
-        return (*listSearcher(listName))->insertItem(item, quantity);
+        return (*listSearcher(listName))->insertItem(item);
     }
     return false;
 }
@@ -94,16 +94,23 @@ void User::showAllLists(int category) {
     }
 }
 
-bool User::modifyItem(const std::string &itemName, const std::string &listName, int quantity) const {
-    bool result = false;
+void User::checkItem(const std::string &itemName, const std::string &listName) {
     if (listIsPresent(listName)) {
         std::shared_ptr<ShoppingList> list = (*listSearcher(listName));
         if ((list->itemsIsPresent(itemName))) {
-            list->itemModifier(itemName, quantity);
-            result = true;
+            list->checkItem(itemName);
         }
     }
-    return result;
 }
+
+void User::uncheckItem(const std::string &itemName, const std::string &listName) {
+    if (listIsPresent(listName)) {
+        std::shared_ptr<ShoppingList> list = (*listSearcher(listName));
+        if ((list->itemsIsPresent(itemName))) {
+            list->uncheckItem(itemName);
+        }
+    }
+}
+
 
 
