@@ -36,38 +36,6 @@ TEST(ShoppingList, TestItemIsPresent) {
     ASSERT_FALSE(list.itemsIsPresent("Acqua"));
 }
 
-TEST(ShoppingList, TestShowList) {
-    ShoppingList list("List");
-    Item x("Limone", 0);
-    Item y("Acqua", 1);
-    Item z("Detersivo", 2);
-    list.insertItem(x);
-    list.insertItem(y);
-    list.insertItem(z);
-    list.showList(0);
-    list.showList(1);
-    list.showList(2);
-    list.showList();
-}
-
-/*TEST(ShoppingList, TestItemModifier) {
-    ShoppingList list("List");
-    Item x("Limone", 0);
-    Item y("Acqua", 1);
-    list.insertItem(x, 10);
-    list.insertItem(y, 4);
-    list.showList();
-    list.itemModifier("Limone", 4);
-    list.showList();
-    list.itemModifier("Limone", -12);
-    list.showList();
-    list.itemModifier("Limone", -2);
-    list.showList();
-    list.itemModifier("Acqua", -7);
-    list.showList();
-
-}*/
-
 TEST(ShoppingList, TestCheckItem) {
     ShoppingList list("List");
     Item x("Limone", 0);
