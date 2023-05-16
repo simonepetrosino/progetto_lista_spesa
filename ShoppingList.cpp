@@ -71,12 +71,14 @@ void ShoppingList::removeObserver(Observer *o) {
 void ShoppingList::checkItem(const std::string &itemName) {
     if (itemsIsPresent(itemName)) {
         (*itemSearcher(itemName)).second->setBought(true);
+        notify();
     }
 }
 
 void ShoppingList::uncheckItem(const std::string &itemName) {
     if (itemsIsPresent(itemName)) {
         (*itemSearcher(itemName)).second->setBought(false);
+        notify();
     }
 }
 

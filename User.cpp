@@ -112,5 +112,14 @@ void User::uncheckItem(const std::string &itemName, const std::string &listName)
     }
 }
 
+int User::totItemsToBuy(const std::string &listName, int category) const {
+    int tot = 0;
+    if (listIsPresent(listName)) {
+        std::shared_ptr<ShoppingList> list = (*listSearcher(listName));
+        tot = list->totItemsToBuy(category);
+    }
+    return tot;
+}
+
 
 

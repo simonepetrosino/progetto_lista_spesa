@@ -44,10 +44,12 @@ TEST(ShoppingList, TestCheckItem) {
     list.insertItem(y);
     ASSERT_FALSE(x.isBought());
     ASSERT_FALSE(y.isBought());
+    ASSERT_TRUE(list.totItemsToBuy() == 2);
     list.checkItem("Limone");
     list.checkItem("Acqua");
     ASSERT_TRUE(x.isBought());
     ASSERT_TRUE(y.isBought());
+    ASSERT_TRUE(list.totItemsToBuy() == 0);
 }
 
 TEST(ShoppingList, TestUncheckItem) {
@@ -58,10 +60,12 @@ TEST(ShoppingList, TestUncheckItem) {
     list.insertItem(y);
     list.checkItem("Limone");
     list.checkItem("Acqua");
+    ASSERT_TRUE(list.totItemsToBuy() == 0);
     list.uncheckItem("Limone");
     list.uncheckItem("Acqua");
     ASSERT_FALSE(x.isBought());
     ASSERT_FALSE(y.isBought());
+    ASSERT_TRUE(list.totItemsToBuy() == 2);
 }
 
 TEST(ShoppingList, TestTotItem) {

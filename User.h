@@ -44,6 +44,8 @@ public:
 
     bool listIsPresent(const std::string &listName) const;
 
+    int totItemsToBuy(const std::string &listName, int category = 3) const;
+
 private:
 
     auto listSearcher(const std::string &listName) const;

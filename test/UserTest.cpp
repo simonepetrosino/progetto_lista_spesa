@@ -68,6 +68,20 @@ TEST(User, TestDetach) {
     ASSERT_FALSE(userY.listIsPresent("List x"));
 }
 
+TEST(User, TestTotItems) {
+    User userX("x");
+    userX.createList("List x");
+    Item x("Limone", 0);
+    Item y("Acqua", 1);
+    userX.addItem(x, "List x");
+    ASSERT_TRUE(userX.totItemsToBuy("List x") == 1);
+    userX.addItem(y, "List x");
+    ASSERT_TRUE(userX.totItemsToBuy("List x") == 2);
+    userX.removeItem("Acqua", "List x");
+    ASSERT_TRUE(userX.totItemsToBuy("List x") == 1);
+    userX.checkItem("Limone", "List x");
+    ASSERT_TRUE(userX.totItemsToBuy("List x") == 0);
+}
 
 TEST(User, TestCheckItem) {
     User userX("x");
@@ -75,8 +89,10 @@ TEST(User, TestCheckItem) {
     Item x("Limone", 0);
     userX.addItem(x, "List x");
     ASSERT_FALSE(x.isBought());
+    ASSERT_TRUE(userX.totItemsToBuy("List x") == 1);
     userX.checkItem("Limone", "List x");
     ASSERT_TRUE(x.isBought());
+    ASSERT_TRUE(userX.totItemsToBuy("List x") == 0);
 }
 
 TEST(User, TestUncheckItem) {
@@ -86,6 +102,8 @@ TEST(User, TestUncheckItem) {
     userX.addItem(x, "List x");
     userX.checkItem("Limone", "List x");
     ASSERT_TRUE(x.isBought());
+    ASSERT_TRUE(userX.totItemsToBuy("List x") == 0);
     userX.uncheckItem("Limone", "List x");
     ASSERT_FALSE(x.isBought());
+    ASSERT_TRUE(userX.totItemsToBuy("List x") == 1);
 }
